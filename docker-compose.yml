@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  # Development database (optional - can use Supabase instead)
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: datashelf_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    profiles:
+      - local-db
+
+
+
+  # Scraper service for development
+  scraper:
+    build:
+      context: ./scraper
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    env_file:
+      - .env
+    volumes:
+      - ./scraper/src:/app/src
+      - ./scraper/storage:/app/storage
+    depends_on:
+      - postgres
+    profiles:
+      - development
+
+volumes:
+  postgres_data:

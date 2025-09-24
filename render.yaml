@@ -1,0 +1,64 @@
+services:
+  - type: web
+    name: datashelf-scraper
+    env: docker
+    dockerfilePath: ./scraper/Dockerfile
+    dockerContext: ./scraper
+    plan: starter
+    region: oregon
+    branch: main
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: SUPABASE_URL
+        fromGroup: datashelf-secrets
+      - key: SUPABASE_ANON_KEY
+        fromGroup: datashelf-secrets
+      - key: SUPABASE_SERVICE_KEY
+        fromGroup: datashelf-secrets
+      - key: CLOUDFLARE_R2_ENDPOINT
+        fromGroup: datashelf-secrets
+      - key: CLOUDFLARE_R2_ACCESS_KEY_ID
+        fromGroup: datashelf-secrets
+      - key: CLOUDFLARE_R2_SECRET_ACCESS_KEY
+        fromGroup: datashelf-secrets
+      - key: CLOUDFLARE_R2_BUCKET_NAME
+        fromGroup: datashelf-secrets
+      - key: SCRAPER_API_KEY
+        fromGroup: datashelf-secrets
+      - key: WORKER_ID
+        generateValue: true
+    buildCommand: npm ci --only=production
+    startCommand: npm start
+    disk:
+      name: scraper-disk
+      mountPath: /app/storage
+      sizeGB: 1
+    scaling:
+      minInstances: 1
+      maxInstances: 3
+      targetMemoryPercent: 80
+      targetCPUPercent: 80
+
+envVarGroups:
+  - name: datashelf-secrets
+    envVars:
+      - key: SUPABASE_URL
+        value: # Set in Render dashboard
+      - key: SUPABASE_ANON_KEY
+        value: # Set in Render dashboard
+      - key: SUPABASE_SERVICE_KEY
+        value: # Set in Render dashboard
+      - key: CLOUDFLARE_R2_ENDPOINT
+        value: # Set in Render dashboard
+      - key: CLOUDFLARE_R2_ACCESS_KEY_ID
+        value: # Set in Render dashboard
+      - key: CLOUDFLARE_R2_SECRET_ACCESS_KEY
+        value: # Set in Render dashboard
+      - key: CLOUDFLARE_R2_BUCKET_NAME
+        value: # Set in Render dashboard
+      - key: SCRAPER_API_KEY
+        value: # Set in Render dashboard

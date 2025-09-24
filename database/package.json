@@ -1,0 +1,31 @@
+{
+  "name": "@datashelf/database",
+  "version": "1.0.0",
+  "description": "Database utilities and migrations for DataShelf",
+  "type": "module",
+  "main": "utils/connection.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "migrate": "node migrate.js migrate",
+    "migrate:deploy": "node deploy-migrations.js",
+    "seed": "node migrate.js seed",
+    "db:status": "node migrate.js status",
+    "db:reset": "node migrate.js reset",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.0",
+    "typescript": "^5.2.0",
+    "vitest": "^0.34.0"
+  },
+  "exports": {
+    "./connection": "./utils/connection.js",
+    "./operations": "./utils/operations.js",
+    "./migrate": "./migrate.js"
+  }
+}

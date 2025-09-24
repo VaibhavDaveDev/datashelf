@@ -1,0 +1,65 @@
+{
+  "name": "datashelf-product-explorer",
+  "version": "1.0.0",
+  "description": "A comprehensive product data exploration platform for World of Books",
+  "private": true,
+  "workspaces": [
+    "database",
+    "scraper",
+    "api",
+    "frontend"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm run install:database && npm run install:scraper && npm run install:api && npm run install:frontend",
+    "install:database": "cd database && npm install",
+    "install:scraper": "cd scraper && npm install",
+    "install:api": "cd api && npm install",
+    "install:frontend": "cd frontend && npm install",
+    "dev": "concurrently \"npm run dev:scraper\" \"npm run dev:api\" \"npm run dev:frontend\"",
+    "dev:scraper": "cd scraper && npm run dev",
+    "dev:api": "cd api && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "npm run build:database && npm run build:scraper && npm run build:api && npm run build:frontend",
+    "build:database": "cd database && npm run build",
+    "build:scraper": "cd scraper && npm run build",
+    "build:api": "cd api && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "test": "npm run test:database && npm run test:scraper && npm run test:api && npm run test:frontend",
+    "test:database": "cd database && npm test",
+    "test:scraper": "cd scraper && npm test",
+    "test:api": "cd api && npm test",
+    "test:frontend": "cd frontend && npm test",
+    "lint": "npm run lint:scraper && npm run lint:api && npm run lint:frontend",
+    "lint:scraper": "cd scraper && npm run lint",
+    "lint:api": "cd api && npm run lint",
+    "lint:frontend": "cd frontend && npm run lint",
+    "db:migrate": "cd database && npm run migrate",
+    "db:seed": "cd database && npm run seed",
+    "db:status": "cd database && npm run db:status",
+    "db:reset": "cd database && npm run db:reset",
+    "clean": "rm -rf node_modules database/node_modules scraper/node_modules api/node_modules frontend/node_modules"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/datashelf-product-explorer.git"
+  },
+  "keywords": [
+    "web-scraping",
+    "product-data",
+    "books",
+    "react",
+    "cloudflare-workers",
+    "supabase"
+  ],
+  "author": "Your Organization",
+  "license": "MIT"
+}

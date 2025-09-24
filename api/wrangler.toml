@@ -1,0 +1,41 @@
+name = "datashelf-api"
+main = "src/index.ts"
+compatibility_date = "2023-11-21"
+node_compat = true
+
+[env.development]
+name = "datashelf-api-dev"
+vars = { ENVIRONMENT = "development" }
+
+[env.staging]
+name = "datashelf-api-staging"
+vars = { ENVIRONMENT = "staging" }
+
+[env.production]
+name = "datashelf-api"
+vars = { ENVIRONMENT = "production" }
+
+# Environment variables (set via wrangler secret put or GitHub Actions)
+# SUPABASE_URL
+# SUPABASE_ANON_KEY
+# SCRAPER_API_KEY
+# SCRAPER_SERVICE_URL
+
+# Using Workers Cache API (caches.default) - no KV namespace needed
+
+# Custom domains (configure after deployment)
+# [env.production.routes]
+# pattern = "api.datashelf.com/*"
+# zone_name = "datashelf.com"
+
+# Rate limiting and resource limits
+[limits]
+cpu_ms = 100
+
+# Build configuration
+[build]
+command = "npm run build"
+
+# Deployment triggers
+[triggers]
+crons = []

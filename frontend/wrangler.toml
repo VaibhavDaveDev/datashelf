@@ -1,0 +1,29 @@
+# Cloudflare Pages configuration for frontend deployment
+name = "datashelf-frontend"
+compatibility_date = "2023-11-21"
+
+[env.production]
+name = "datashelf-frontend"
+
+[env.staging]
+name = "datashelf-frontend-staging"
+
+# Build configuration
+[build]
+command = "npm run build"
+cwd = "."
+watch_dir = "src"
+
+# Pages configuration
+[pages]
+build_output_dir = "dist"
+build_command = "npm run build"
+
+# Environment variables for build
+[env.production.vars]
+VITE_API_BASE_URL = "https://datashelf-api.your-subdomain.workers.dev"
+VITE_ENVIRONMENT = "production"
+
+[env.staging.vars]
+VITE_API_BASE_URL = "https://datashelf-api-staging.your-subdomain.workers.dev"
+VITE_ENVIRONMENT = "staging"
