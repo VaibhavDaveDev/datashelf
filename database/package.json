@@ -7,11 +7,11 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "migrate": "node migrate.js migrate",
-    "migrate:deploy": "node deploy-migrations.js",
-    "seed": "node migrate.js seed",
-    "db:status": "node migrate.js status",
-    "db:reset": "node migrate.js reset",
+    "migrate": "node dist/migrate.js migrate",
+    "migrate:deploy": "node dist/deploy-migrations.js",
+    "seed": "node dist/migrate.js seed",
+    "db:status": "node dist/migrate.js status",
+    "db:reset": "node dist/migrate.js reset",
     "test": "vitest run",
     "test:watch": "vitest"
   },

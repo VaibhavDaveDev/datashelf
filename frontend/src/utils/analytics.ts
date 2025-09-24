@@ -27,12 +27,12 @@ class AnalyticsService {
   private isEnabled: boolean;
   private batchSize = 10;
   private flushInterval = 30000; // 30 seconds
-  private flushTimer?: NodeJS.Timeout;
+  private flushTimer?: number;
 
   constructor() {
     this.sessionId = this.generateSessionId();
     this.isEnabled = this.shouldEnableAnalytics();
-    
+
     if (this.isEnabled) {
       this.startPerformanceMonitoring();
       this.startAutoFlush();
@@ -202,8 +202,9 @@ class AnalyticsService {
       this.events = [];
       this.performanceMetrics = [];
 
-      // Send to analytics endpoint (would be implemented on the API)
-      const response = await fetch('/api/analytics', {
+      // Send to analytics endpoint
+      const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || '';
+      const response = await fetch(`${apiBaseUrl}/api/analytics`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -212,7 +213,7 @@ class AnalyticsService {
       });
 
       if (!response.ok) {
-        console.warn('Failed to send analytics data:', response.status);
+        console.warn('Failed to send analytics data:', response.status, response.statusText);
         // Could implement retry logic here
       } else {
         console.debug('Analytics data sent successfully');
@@ -277,7 +278,11 @@ class AnalyticsService {
     }
 
     // Check for local development
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    if (window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1' ||
+      window.location.hostname.includes('.local') ||
+      window.location.port === '3000' ||
+      window.location.port === '5173') { // Vite dev server
       return false; // Disable in development
     }
 
@@ -304,21 +309,23 @@ class AnalyticsService {
         }, 0);
       });
 
-      // Monitor resource loading
-      const observer = new PerformanceObserver((list) => {
-        for (const entry of list.getEntries()) {
-          if (entry.entryType === 'resource') {
-            const resource = entry as PerformanceResourceTiming;
-            this.trackPerformance('resource_load', resource.duration, 'ms', {
-              name: resource.name,
-              type: this.getResourceType(resource.name),
-              size: resource.transferSize,
-            });
+      // Monitor resource loading (with browser support check)
+      if ('PerformanceObserver' in window) {
+        const observer = new PerformanceObserver((list) => {
+          for (const entry of list.getEntries()) {
+            if (entry.entryType === 'resource') {
+              const resource = entry as PerformanceResourceTiming;
+              this.trackPerformance('resource_load', resource.duration, 'ms', {
+                name: resource.name,
+                type: this.getResourceType(resource.name),
+                size: resource.transferSize,
+              });
+            }
           }
-        }
-      });
+        });
 
-      observer.observe({ entryTypes: ['resource'] });
+        observer.observe({ entryTypes: ['resource'] });
+      }
     }
   }
 
@@ -393,17 +400,17 @@ export const analytics = new AnalyticsService();
 
 // Convenience functions
 export const trackPageView = (path: string, title?: string) => analytics.trackPageView(path, title);
-export const trackClick = (element: string, properties?: Record<string, any>) => 
+export const trackClick = (element: string, properties?: Record<string, any>) =>
   analytics.trackInteraction('click', element, properties);
-export const trackSearch = (query: string, results: number, category?: string) => 
+export const trackSearch = (query: string, results: number, category?: string) =>
   analytics.trackSearch(query, results, category);
-export const trackProductView = (productId: string, category?: string, source?: string) => 
+export const trackProductView = (productId: string, category?: string, source?: string) =>
   analytics.trackProductView(productId, category, source);
-export const trackProductClick = (productId: string, position?: number, category?: string) => 
+export const trackProductClick = (productId: string, position?: number, category?: string) =>
   analytics.trackProductClick(productId, position, category);
-export const trackError = (error: Error, context?: Record<string, any>) => 
+export const trackError = (error: Error, context?: Record<string, any>) =>
   analytics.trackError(error, context);
-export const trackApiCall = (endpoint: string, method: string, duration: number, status: number, cached?: boolean) => 
+export const trackApiCall = (endpoint: string, method: string, duration: number, status: number, cached?: boolean) =>
   analytics.trackApiCall(endpoint, method, duration, status, cached);
 
 // React hook for analytics

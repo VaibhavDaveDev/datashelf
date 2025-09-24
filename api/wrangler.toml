@@ -1,7 +1,7 @@
 name = "datashelf-api"
 main = "src/index.ts"
-compatibility_date = "2023-11-21"
-node_compat = true
+compatibility_date = "2024-01-15"
+compatibility_flags = ["nodejs_compat"]
 
 [env.development]
 name = "datashelf-api-dev"
@@ -28,13 +28,13 @@ vars = { ENVIRONMENT = "production" }
 # pattern = "api.datashelf.com/*"
 # zone_name = "datashelf.com"
 
-# Rate limiting and resource limits
-[limits]
-cpu_ms = 100
+# Rate limiting and resource limits (CPU limits not available on free plan)
+# [limits]
+# cpu_ms = 100
 
 # Build configuration
-[build]
-command = "npm run build"
+# [build]
+# command = "npm run build"
 
 # Deployment triggers
 [triggers]

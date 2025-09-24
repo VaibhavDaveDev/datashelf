@@ -1,4 +1,4 @@
-import { createHmac } from 'crypto';
+import { createHmac } from 'node:crypto';
 
 /**
  * Request signing utilities for secure communication with scraper service
