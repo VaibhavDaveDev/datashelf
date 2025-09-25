@@ -1,8 +1,9 @@
-# Use Node.js 18 on Ubuntu (more reliable for Render)
-FROM node:18
+# Use Ubuntu base image and install Node.js manually
+FROM ubuntu:22.04
 
-# Install system dependencies for Playwright
+# Install Node.js 18 and system dependencies
 RUN apt-get update && apt-get install -y \
+    curl \
     wget \
     ca-certificates \
     fonts-liberation \
@@ -15,6 +16,8 @@ RUN apt-get update && apt-get install -y \
     libxss1 \
     libxtst6 \
     xdg-utils \
+    && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 # Create app directory
