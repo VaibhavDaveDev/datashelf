@@ -100,7 +100,7 @@ export class DatabaseService {
   constructor() {
     this.client = createClient(
       config.SUPABASE_URL,
-      config.SUPABASE_SERVICE_ROLE_KEY,
+      config.SUPABASE_SERVICE_KEY,
       {
         auth: {
           autoRefreshToken: false,

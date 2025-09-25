@@ -208,10 +208,10 @@ async function main() {
   
   // Get configuration from environment
   const supabaseUrl = process.env.SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_KEY;
 
   if (!supabaseUrl || !serviceRoleKey) {
-    console.error('Error: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY environment variables are required');
+    console.error('Error: SUPABASE_URL and SUPABASE_SERVICE_KEY environment variables are required');
     process.exit(1);
   }
 
