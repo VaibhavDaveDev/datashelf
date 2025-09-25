@@ -4,19 +4,8 @@ The DataShelf frontend is a React application built with TypeScript, Tailwind CS
 
 ## Architecture
 
-```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   React App     │    │ Cloudflare Pages │    │ Cloudflare      │
-│  (TypeScript +  │───►│   Static Hosting │───►│ Workers API     │
-│   Tailwind)     │    │                  │    │                 │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-         │
-         ▼
-┌─────────────────┐
-│  React Query    │
-│  State Mgmt     │
-└─────────────────┘
-```
+<img width="3840" height="2346" alt="Flowchart_frontend" src="https://github.com/user-attachments/assets/3f6cbb5f-683f-4ff2-bdc8-b3deae67bd34" />
+
 
 ## Features
 
