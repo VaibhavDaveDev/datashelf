@@ -31,7 +31,11 @@ services:
         fromGroup: datashelf-secrets
       - key: WORKER_ID
         generateValue: true
-    buildCommand: npm ci --only=production
+    buildCommand: |
+      apt-get update && apt-get install -y wget gnupg && \
+      npm install --include=dev && \
+      npm run build && \
+      npx playwright install chromium --with-deps
     startCommand: npm start
     disk:
       name: scraper-disk
