@@ -105,10 +105,10 @@ export const apiService = {
     limit?: number;
     offset?: number;
   }): Promise<PaginatedResponse<Category>> {
-    const response: AxiosResponse<PaginatedResponse<Category>> = await api.get('/api/categories', {
+    const response: AxiosResponse<{data: PaginatedResponse<Category>}> = await api.get('/api/categories', {
       params,
     });
-    return response.data;
+    return response.data.data;
   },
 
   // Product endpoints
