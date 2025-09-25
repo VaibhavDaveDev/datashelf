@@ -31,6 +31,10 @@ The API uses Cloudflare's edge caching with stale-while-revalidate:
 - **Product lists**: 5 minutes TTL
 - **Product details**: 2 minutes TTL
 
+### API Request Flow
+<img width="3840" height="3249" alt="Sequence Diagram_API Request Flow" src="https://github.com/user-attachments/assets/b721d8f7-996a-4051-97b2-04a23efb692b" />
+
+
 ## Endpoints
 
 ### Navigation
