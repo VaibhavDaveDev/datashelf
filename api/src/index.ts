@@ -23,7 +23,7 @@ app.use('*', prettyJSON());
 
 // CORS configuration
 app.use('/api/*', cors({
-  origin: ['https://datashelf.pages.dev', 'http://localhost:3000', 'http://localhost:5173', 'https://datashelf.com', 'https://www.datashelf.com'],
+  origin: ['http://localhost:3000', 'http://localhost:5173', 'https://datashelf.pages.dev', 'https://www.datashelf.com'],
   allowMethods: ['GET', 'POST', 'OPTIONS'],
   allowHeaders: ['Content-Type', 'Authorization', 'X-API-Key', 'X-Signature'],
   maxAge: 86400,
