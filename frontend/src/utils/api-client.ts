@@ -125,7 +125,7 @@ class ApiClient {
 }
 
 // Create default API client instance
-const baseURL = 'https://api.datashelf.workers.dev';
+const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8787';
 
 export const apiClient = new ApiClient({
   baseURL,
