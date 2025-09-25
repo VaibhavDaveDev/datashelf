@@ -1,19 +1,21 @@
-# Use Node.js 18 Alpine for smaller image size
-FROM node:18-alpine
+# Use Node.js 18 on Ubuntu (more reliable for Render)
+FROM node:18
 
 # Install system dependencies for Playwright
-RUN apk add --no-cache \
-    chromium \
-    nss \
-    freetype \
-    freetype-dev \
-    harfbuzz \
+RUN apt-get update && apt-get install -y \
+    wget \
     ca-certificates \
-    ttf-freefont
-
-# Set Playwright to use system Chromium
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+    fonts-liberation \
+    libasound2 \
+    libatk-bridge2.0-0 \
+    libdrm2 \
+    libgtk-3-0 \
+    libnspr4 \
+    libnss3 \
+    libxss1 \
+    libxtst6 \
+    xdg-utils \
+    && rm -rf /var/lib/apt/lists/*
 
 # Create app directory
 WORKDIR /app
@@ -24,8 +26,8 @@ COPY package*.json ./
 # Install dependencies
 RUN npm ci --only=production
 
-# Install Playwright browsers
-RUN npx playwright install chromium --with-deps
+# Install Playwright browsers (this downloads Chromium)
+RUN npx playwright install chromium
 
 # Copy source code
 COPY . .
@@ -34,8 +36,8 @@ COPY . .
 RUN npm run build
 
 # Create non-root user for security
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S scraper -u 1001
+RUN groupadd --gid 1001 nodejs
+RUN useradd --uid 1001 --gid nodejs --shell /bin/bash --create-home scraper
 
 # Change ownership of the app directory
 RUN chown -R scraper:nodejs /app
