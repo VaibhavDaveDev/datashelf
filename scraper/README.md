@@ -4,19 +4,8 @@ The scraper service is responsible for extracting product data from World of Boo
 
 ## Architecture
 
-```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Job Queue     │    │   Scraper Worker │    │   World of Books│
-│  (PostgreSQL)   │◄──►│   (Crawlee +     │───►│    Website      │
-│                 │    │   Playwright)    │    │                 │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-                                │
-                                ▼
-                       ┌─────────────────┐    ┌─────────────────┐
-                       │   Supabase      │    │  Cloudflare R2  │
-                       │  PostgreSQL     │    │   Image Storage │
-                       └─────────────────┘    └─────────────────┘
-```
+ <img width="3840" height="1028" alt="Flowchart_Scraper" src="https://github.com/user-attachments/assets/4d0e0f1c-a2d4-4d68-9711-313f4550602b" />
+
 
 ## Features
 
