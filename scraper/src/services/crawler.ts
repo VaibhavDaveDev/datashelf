@@ -35,9 +35,11 @@ export class ScraperCrawler {
 
         this.crawler = new PlaywrightCrawler({
             // Browser configuration optimized for World of Books (Shopify store)
+            // Using explicit browser path from environment variable in containerized environments
             launchContext: {
                 launchOptions: {
                     headless: true,
+                    ...(process.env['BROWSER_PATH'] ? { executablePath: process.env['BROWSER_PATH'] } : {}),
                     args: [
                         '--no-sandbox',
                         '--disable-setuid-sandbox',

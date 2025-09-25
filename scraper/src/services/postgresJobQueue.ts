@@ -375,13 +375,8 @@ export class PostgresJobQueue {
         try {
             const client = this.database.getClient();
 
-            const { data, error } = await client
-                .from('scrape_job')
-                .select('*')
-                .eq('status', 'failed')
-                .lt('attempts', 'max_attempts')
-                .order('updated_at', { ascending: true })
-                .limit(limit);
+            // Use a raw SQL query to correctly compare attempts with max_attempts column
+            const { data, error } = await client.rpc('get_retryable_jobs', { limit_count: limit });
 
             if (error) {
                 throw new Error(`Failed to get retryable jobs: ${error.message}`);
