@@ -6,6 +6,8 @@ The DataShelf web scraping engine is built with Crawlee and Playwright to extrac
 
 ## Architecture
 
+![Scraping Workflow Diagram](../assets/Scraping_Workflow_Diagram.png)
+
 ### Core Components
 
 1. **ScraperCrawler** (`src/services/crawler.ts`)

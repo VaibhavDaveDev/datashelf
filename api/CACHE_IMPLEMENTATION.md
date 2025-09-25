@@ -13,17 +13,7 @@ The caching system provides:
 
 ## Architecture
 
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   API Request   │───▶│  Cache Manager  │───▶│ Cloudflare KV   │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-                                │
-                                ▼
-                       ┌─────────────────┐
-                       │   Database      │
-                       │   (Supabase)    │
-                       └─────────────────┘
-```
+![Cache Implementation Flowchart](../assets/Cache_Implementation_Flowchart.png)
 
 ## Core Components
 

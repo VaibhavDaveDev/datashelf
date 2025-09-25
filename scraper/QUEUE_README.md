@@ -16,15 +16,7 @@ The queue system provides:
 
 ## Architecture
 
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Job Producer  │───▶│   Redis Queue   │───▶│  Job Processor  │
-│                 │    │                 │    │                 │
-│ - API Endpoints │    │ - Main Queue    │    │ - Worker Pool   │
-│ - Scheduled     │    │ - Delayed Queue │    │ - Lock Manager  │
-│   Tasks         │    │ - Dead Letter   │    │ - Retry Logic   │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-```
+![Queue System Flowchart](../assets/Queue_System_Flowchart.png)
 
 ## Key Components
 

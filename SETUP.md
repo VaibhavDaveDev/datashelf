@@ -4,7 +4,7 @@ This guide will help you set up the DataShelf Product Explorer development envir
 
 ## Prerequisites
 
-- Node.js 18+ and npm 9+
+- Node.js 20+ and npm 9+
 - Docker and Docker Compose (for local development)
 - Git
 

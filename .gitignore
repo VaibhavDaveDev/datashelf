@@ -170,6 +170,10 @@ metrics/
 config.local.json
 settings.local.json
 
+# Project documentation
+scraper/docs/
+Project_SRS.md
+
 # IDE and editor files
 *.sublime-project
 *.sublime-workspace

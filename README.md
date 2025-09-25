@@ -2,6 +2,15 @@
 
 DataShelf is a comprehensive product data exploration platform that crawls the World of Books website to extract, normalize, and serve structured product data. The system consists of a web scraper service, a PostgreSQL database (Supabase), edge API workers (Cloudflare), and a React frontend.
 
+## 🌐 Live Services
+
+- **Frontend**: [https://datashelf.pages.dev/](https://datashelf.pages.dev/)
+- **API**: [https://datashelf-api.your-subdomain.workers.dev](https://datashelf-api.your-subdomain.workers.dev)
+- **Scraper**: [https://datashelf-scraper.onrender.com](https://datashelf-scraper.onrender.com)
+- **Database**: Supabase (private endpoint)
+- **Storage**: Cloudflare R2 (private endpoint)
+- **Docker Image**: [docker.io/vaibhavdavedev/datashelf-scraper:latest](https://hub.docker.com/r/vaibhavdavedev/datashelf-scraper)
+
 ## 🏗️ Architecture Overview
 
 <img width="3840" height="3688" alt="Architecture Overview" src="https://github.com/user-attachments/assets/309595ff-ea97-4123-9aaa-b3c36bb539be" />
@@ -11,7 +20,7 @@ DataShelf is a comprehensive product data exploration platform that crawls the W
 
 ### Prerequisites
 
-- Node.js 18+ and npm
+- Node.js 20+ and npm
 - Docker (for scraper service)
 - Supabase account
 - Cloudflare account (Workers, Pages, R2)
@@ -142,6 +151,32 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
 - Logs: Structured logging with appropriate levels
 - Metrics: Scraping success rates and API performance
 - Alerts: Critical failure notifications
+
+## 🐳 Deployment
+
+### Published Docker Image
+
+The scraper service is available as a pre-built Docker image:
+
+```bash
+docker pull vaibhavdavedev/datashelf-scraper:latest
+```
+
+### Live Deployments
+
+- **Frontend**: Deployed on Cloudflare Pages
+  - URL: [https://datashelf.pages.dev/](https://datashelf.pages.dev/)
+  - Automatically deploys from the `main` branch
+
+- **API**: Deployed on Cloudflare Workers
+  - URL: [https://datashelf-api.your-subdomain.workers.dev](https://datashelf-api.your-subdomain.workers.dev)
+  - Deploy with `wrangler deploy --env production`
+
+- **Scraper**: Deployed on Render
+  - URL: [https://datashelf-scraper.onrender.com](https://datashelf-scraper.onrender.com)
+  - Automatically deploys from the `main` branch or use the Docker image
+
+For complete deployment instructions, see [DEPLOYMENT.md](./DEPLOYMENT.md).
 
 ## 🧪 Testing
 

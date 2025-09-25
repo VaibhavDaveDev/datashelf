@@ -4,6 +4,8 @@ This guide covers deploying the DataShelf application to production and staging 
 
 ## Architecture Overview
 
+![Architecture Diagram](./assets/Architecture_Diagram.png)
+
 - **Frontend**: React app deployed to Cloudflare Pages
 - **API**: Cloudflare Workers for edge caching and API endpoints
 - **Scraper**: Docker container deployed to Render
@@ -13,7 +15,7 @@ This guide covers deploying the DataShelf application to production and staging 
 ## Prerequisites
 
 ### Required Tools
-- Node.js 18+
+- Node.js 20+
 - npm or yarn
 - Docker (for scraper service)
 - Wrangler CLI (`npm install -g wrangler`)
@@ -55,10 +57,19 @@ This guide covers deploying the DataShelf application to production and staging 
 
 ### 3. Render Configuration
 
+#### Option 1: Deploy from GitHub Repository
 1. Create a new Web Service
 2. Connect your GitHub repository
 3. Set Docker build context to `./scraper`
 4. Configure environment variables (see below)
+
+#### Option 2: Deploy Using Published Docker Image
+1. Create a new Web Service
+2. Select "Deploy an existing image" option
+3. Use the Docker image: `docker.io/vaibhavdavedev/datashelf-scraper:latest`
+4. Configure environment variables (see below)
+
+The published Docker image includes all necessary dependencies including Node.js 20 LTS and Chrome browser for scraping. The deployed scraper service is available at: https://datashelf-scraper.onrender.com
 
 ## Environment Variables
 
@@ -165,6 +176,27 @@ wrangler pages deploy dist --project-name datashelf-frontend
 
 #### Scraper (Render)
 Render automatically deploys when you push to the connected branch.
+
+You can also manually deploy using the published Docker image:
+
+```bash
+# Pull the Docker image
+docker pull vaibhavdavedev/datashelf-scraper:latest
+
+# Run locally (replace environment variables with your actual values)
+docker run -p 3000:3000 \
+  -e SUPABASE_URL="your-supabase-url" \
+  -e SUPABASE_SERVICE_KEY="your-service-key" \
+  vaibhavdavedev/datashelf-scraper:latest
+
+# Deploy to Render
+# 1. Create a new Web Service
+# 2. Select "Deploy an existing image"
+# 3. Enter: docker.io/vaibhavdavedev/datashelf-scraper:latest
+# 4. Configure environment variables as needed
+```
+
+Current deployment URL: https://datashelf-scraper.onrender.com
 
 ## Monitoring and Health Checks
 

@@ -20,7 +20,7 @@ The scraper service is responsible for extracting product data from World of Boo
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 20+ (LTS recommended)
 - Docker (for deployment)
 - PostgreSQL database (Supabase)
 - Cloudflare R2 credentials
@@ -48,6 +48,35 @@ The scraper service is responsible for extracting product data from World of Boo
 4. **Start development server:**
    ```bash
    npm run dev
+   ```
+
+### Using Pre-built Docker Image
+
+You can use our pre-built Docker image to run the scraper service:
+
+```bash
+# Pull the latest image
+docker pull vaibhavdavedev/datashelf-scraper:latest
+
+# Run the container with environment variables
+docker run -p 3000:3000 \
+  -e SUPABASE_URL=your_supabase_url \
+  -e SUPABASE_SERVICE_KEY=your_service_key \
+  -e CLOUDFLARE_R2_ENDPOINT=your_r2_endpoint \
+  -e CLOUDFLARE_R2_ACCESS_KEY_ID=your_access_key \
+  -e CLOUDFLARE_R2_SECRET_ACCESS_KEY=your_secret_key \
+  -e CLOUDFLARE_R2_BUCKET_NAME=datashelf-images \
+  -e SCRAPER_API_KEY=your_api_key \
+  -e PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 \
+  vaibhavdavedev/datashelf-scraper:latest
+```
+
+### Live Demo Service
+
+A running instance of the scraper service is available at:
+https://datashelf-scraper.onrender.com
+
+Check the health endpoint: https://datashelf-scraper.onrender.com/health
    ```
 
 ### Environment Variables

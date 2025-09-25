@@ -97,6 +97,7 @@ This guide covers common issues and their solutions for the DataShelf platform.
 **Symptoms:**
 - "Browser not found" errors
 - Scraping jobs fail immediately
+- "Failed to launch browser" errors in logs
 
 **Solutions:**
 
@@ -109,17 +110,40 @@ This guide covers common issues and their solutions for the DataShelf platform.
 
 2. **Docker browser issues:**
    ```dockerfile
-   # Ensure Dockerfile includes browser installation
-   RUN npx playwright install chromium
-   RUN npx playwright install-deps
+   # Reliable browser installation for containerized environments
+   ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+   RUN mkdir -p /ms-playwright && \
+       apt-get update && \
+       apt-get install -y wget unzip && \
+       cd /ms-playwright && \
+       wget https://playwright.azureedge.net/builds/chromium/1072/chromium-linux.zip && \
+       unzip chromium-linux.zip && \
+       rm chromium-linux.zip && \
+       apt-get clean && \
+       rm -rf /var/lib/apt/lists/*
+
+   # Set browser path environment variable
+   ENV BROWSER_PATH=/ms-playwright/chromium-1072/chrome-linux/chrome
    ```
 
 3. **Check browser path:**
    ```javascript
-   // In scraper config
-   const browser = await playwright.chromium.launch({
-     executablePath: process.env.CHROMIUM_PATH || undefined
-   });
+   // In scraper/src/services/crawler.ts
+   launchOptions: {
+     headless: true,
+     ...(process.env['BROWSER_PATH'] ? { executablePath: process.env['BROWSER_PATH'] } : {}),
+     args: [
+       '--no-sandbox',
+       '--disable-setuid-sandbox',
+       // Other args...
+     ]
+   }
+   ```
+
+4. **Use Remote Browser mode in Render:**
+   ```bash
+   # Set this environment variable in Render
+   PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
    ```
 
 ### Scraping Jobs Stuck in Queue

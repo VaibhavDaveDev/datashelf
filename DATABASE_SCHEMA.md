@@ -12,63 +12,7 @@ The database consists of four main tables:
 
 ## Entity Relationship Diagram
 
-```mermaid
-erDiagram
-    navigation ||--o{ navigation : "parent_id"
-    navigation ||--o{ category : "navigation_id"
-    category ||--o{ product : "category_id"
-    
-    navigation {
-        uuid id PK
-        text title
-        text source_url UK
-        uuid parent_id FK
-        timestamptz last_scraped_at
-    }
-    
-    category {
-        uuid id PK
-        uuid navigation_id FK
-        text title
-        text source_url UK
-        integer product_count
-        timestamptz last_scraped_at
-    }
-    
-    product {
-        uuid id PK
-        uuid category_id FK
-        text title
-        text source_url UK
-        text source_id
-        numeric price
-        text currency
-        jsonb image_urls
-        text summary
-        jsonb specs
-        boolean available
-        timestamptz last_scraped_at
-        timestamptz created_at
-        timestamptz updated_at
-    }
-    
-    scrape_job {
-        uuid id PK
-        text type
-        text target_url
-        text status
-        integer attempts
-        integer max_attempts
-        integer priority
-        timestamptz locked_at
-        text locked_by
-        text last_error
-        jsonb metadata
-        timestamptz created_at
-        timestamptz updated_at
-        timestamptz completed_at
-    }
-```
+![Database ER Diagram](./assets/Database_ER_Diagram.png)
 
 ## Table Definitions
 
