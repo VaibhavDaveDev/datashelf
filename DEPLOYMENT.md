@@ -4,7 +4,7 @@ This guide covers deploying the DataShelf application to production and staging 
 
 ## Architecture Overview
 
-![Architecture Diagram](./assets/Architecture Diagram.png)
+![Architecture Diagram](./assets/Architecture_Diagram.png)
 
 - **Frontend**: React app deployed to Cloudflare Pages
 - **API**: Cloudflare Workers for edge caching and API endpoints
