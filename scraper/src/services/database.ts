@@ -789,23 +789,37 @@ export class DatabaseService {
   }
 
   /**
-   * Get failed jobs that can be retried
+   * Get failed jobs that can be retried using the get_retryable_jobs database function
    */
   async getRetryableJobs(limit: number = 20): Promise<DatabaseScrapeJob[]> {
     try {
+      interface RetryableJob {
+        id: string;
+        type: 'navigation' | 'category' | 'product';
+        target_url: string;
+        metadata: Record<string, any>;
+        attempts: number;
+        max_attempts: number;
+      }
+
       const { data, error } = await this.client
-        .from('scrape_job')
-        .select('*')
-        .eq('status', 'failed')
-        .lt('attempts', 'max_attempts')
-        .order('updated_at', { ascending: true })
-        .limit(limit);
+        .rpc('get_retryable_jobs', { limit_count: limit });
 
       if (error) {
         throw new Error(`Failed to get retryable jobs: ${error.message}`);
       }
 
-      return (data || []) as DatabaseScrapeJob[];
+      // Map the results to include all DatabaseScrapeJob fields
+      return (data || []).map((job: RetryableJob) => ({
+        ...job,
+        status: 'failed' as const,
+        last_error: null,
+        locked_at: null,
+        locked_by: null,
+        priority: 0,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      })) as DatabaseScrapeJob[];
     } catch (error) {
       throw error;
     }
